@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<insert id="insert" parameterType ="map">
+	INSERT INTO tbl_board(bno,title,content,writer)
+	VALUES (seq_boardno.NEXTVAL,#{title},#{content},#{writer})
+	</insert>
+	<select id="selBoard" resultType = "problem.board.BoardDTO">
+	SELECT * FROM tbl_board
+	ORDER BY bno
+	</select>
+	<select id="search" resultType = "problem.board.BoardDTO">
+	SELECT * FROM tbl_board
+	WHERE bno = #{bno}
+	</select>
+	<delete id="delete">
+	DELETE FROM tbl_board
+	WHERE bno =#{bno} AND writer = #{userid}
+	</delete>
+	<update id="update">
+	UPDATE tbl_board
+	SET title =#{title}, content=#{content}
+	WHERE bno =#{bno} AND writer = #{writer}
+	</update>
+	<update id="viewcnt">
+	UPDATE tbl_board
+	SET viewcnt = viewcnt + 1
+	WHERE bno =#{bno}
+	</update>
+	<select id="selectTitle" resultType = "problem.board.BoardDTO">
+	SELECT * FROM tbl_board
+	WHERE title LIKE #{title}
+	ORDER BY bno
+	</select>
+
+
+
+
+
+</mapper>
