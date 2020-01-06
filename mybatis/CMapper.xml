@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="C">
+	<update id="sale" parameterType="map">
+		UPDATE tbl_product
+		SET cnt = cnt - #{cnt}
+		WHERE pno = #{pno}
+	</update>		
+	<update id="updateP" parameterType="map">
+		UPDATE tbl_product
+		SET cnt = cnt + #{amt}
+		WHERE pname = #{pname}
+	</update>
+	<select id="pno" resultType="problem.convenience.CDTO">
+		SELECT * FROM tbl_product
+		WHERE pno = #{pno}
+	</select>
+	<select id="sellectOne" resultType="problem.convenience.CDTO">
+		SELECT * FROM tbl_product
+		WHERE pno = #{pno}
+	</select>
+	<delete id="deleteP">
+		DELETE FROM tbl_product
+		WHERE pno = #{pno}
+	</delete>
+	<select id="price" resultType="Integer">
+		SELECT price FROM tbl_product
+		WHERE pno = #{pno}
+	</select>
+	<select id="pname" resultType="String">
+		SELECT pname FROM tbl_product
+		WHERE pno = #{pno}
+	</select>
+	<select id="amount" resultType="Integer">
+		SELECT cnt FROM tbl_product
+		WHERE pno = #{pno}
+	</select>
+	<select id="sellectAll" resultType="problem.convenience.CDTO">
+		SELECT * FROM tbl_product
+		ORDER BY pno
+	</select>
+	<select id="selectSum" resultType="Integer">
+		SELECT SUM(cnt*tprice) FROM tbl_sale
+	</select>
+	<select id="already" resultType="Integer">
+		SELECT COUNT(*) FROM tbl_product
+		WHERE pname = #{pname}
+	</select>
+	<insert id="insertP" parameterType="map">
+		INSERT INTO tbl_product(pno,pname,company,price,cnt)
+		VALUES(seq_product.NEXTVAL,#{pname},#{company},#{price},#{amt})
+	</insert>
+	<insert id="insertS" parameterType="problem.convenience.SDTO">
+		INSERT INTO tbl_sale(sno,pno,tprice,cnt)
+		VALUES(seq_sale.NEXTVAL,#{pno},#{tprice},#{cnt})
+	</insert>
+	<select id="selectS" resultType="Integer">
+		SELECT (cnt*tprice) FROM tbl_sale
+	</select>
+</mapper>
